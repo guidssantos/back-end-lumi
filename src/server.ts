@@ -1,7 +1,10 @@
 import express, { Application } from 'express';
 import { router } from './routes';
+import { configDotenv } from 'dotenv';
 
-const PORT = 8080;
+configDotenv();
+
+const PORT = process.env.API_PORT;
 
 const server: Application = express();
 server.use(router);

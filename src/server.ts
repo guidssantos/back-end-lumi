@@ -1,7 +1,7 @@
-import express, {Application} from 'express'
+import express, { Application } from 'express';
 import { router } from './routes';
 
-const PORT = 8080
+const PORT = 8080;
 
 const server: Application = express();
 server.use(router);

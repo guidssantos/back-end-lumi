@@ -1,7 +1,5 @@
-
-
 export class InvoiceRepository {
-    async find(){
-        return "Find"
+    async find() {
+        return 'Find';
     }
 }

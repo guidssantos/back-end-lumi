@@ -11,4 +11,9 @@ export class InvoiceController {
 
         return response.status(content.length === 0 ? 204 : 200).json({ content: content });
     }
+    async extractPdf(request: Request, response: Response) {
+        const content = await invoiceService.extractPdf(request.body, invoiceRepository);
+
+        return response.status(200).json({ content: content });
+    }
 }

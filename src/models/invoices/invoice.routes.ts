@@ -6,5 +6,6 @@ const invoiceRouter = Router();
 const invoiceController = new InvoiceController();
 
 invoiceRouter.get('/', routeAdapter(invoiceController.find));
+invoiceRouter.post('/', routeAdapter(invoiceController.extractPdf));
 
 export { invoiceRouter };

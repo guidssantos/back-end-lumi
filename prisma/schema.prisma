@@ -9,16 +9,16 @@ datasource db {
 }
 
 model Invoice {
-  id                         Int      @id @default(autoincrement())
-  clientNumber               String   
+  id                         String     @id @default(uuid())
+  clientNumber               Float   
   referenceMonth             String
-  energyElectricQuantity     String?
-  energyElectricValue        String?
-  energySCEQuantity          String?
-  energySCEValue             String?
-  energyCompensatedQuantity  String?
-  energyCompensatedValue     String?
-  publicLightingContributionValue String?
+  energyElectricQuantity     Int?
+  energyElectricValue        Float?
+  energySCEQuantity          Int?
+  energySCEValue             Float?
+  energyCompensatedQuantity  Int?
+  energyCompensatedValue     Float?
+  publicLightingContributionValue Float?
   pdfBuffer                  String?
   createdAt                  DateTime @default(now())
   updatedAt            DateTime?       @updatedAt

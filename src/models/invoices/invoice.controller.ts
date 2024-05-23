@@ -11,6 +11,11 @@ export class InvoiceController {
 
         return response.status(content.length === 0 ? 204 : 200).json({ content: content });
     }
+    async dashboard(request: Request, response: Response) {
+        const content = await invoiceService.dashboard(request.query, invoiceRepository);
+
+        return response.status(content.length === 0 ? 204 : 200).json({ content: content });
+    }
     async download(request: Request, response: Response) {
         const content = await invoiceService.download(request.params, invoiceRepository);
 

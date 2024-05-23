@@ -6,6 +6,11 @@ export class InvoiceService {
         return invoice;
     }
 
+    async dashboard(body: any, invoiceRepository: InvoiceRepository) {
+        const invoice = await invoiceRepository.dashboard(body);
+        return invoice;
+    }
+
     async download(body: any, invoiceRepository: InvoiceRepository) {
         const invoice = await invoiceRepository.download(body);
         return invoice;
@@ -24,7 +29,7 @@ export class InvoiceService {
 
         const clientNumberMatch = textItems.match(/Nº DA INSTALAÇÃO\s+(\d+)/i);
         const referenceMonthMatch = textItems.match(/Valor a pagar \(R\$\)\s+([A-Z]{3})/i);
-        const energyEletricMatch = textItems.match(
+        const energyElectricMatch = textItems.match(
             /Energia Elétrica\s+kWh\s+(\d+)\s+[\d,.]+\s+([\d,.]+)/i
         );
         const energySCE_Match = textItems.match(
@@ -36,24 +41,37 @@ export class InvoiceService {
         const publicLightingContributionMatch = textItems.match(
             /Contrib Ilum Publica Municipal\s+([\d,.]+)/i
         );
-        if (clientNumberMatch) extractedData.clientNumber = clientNumberMatch[1];
+
+        if (clientNumberMatch) extractedData.clientNumber = parseInt(clientNumberMatch[1]);
         if (referenceMonthMatch) extractedData.referenceMonth = referenceMonthMatch[1];
-        if (energyEletricMatch) {
-            extractedData.energyElectricQuantity = energyEletricMatch[1];
-            extractedData.energyElectricValue = energyEletricMatch[2];
+
+        if (energyElectricMatch) {
+            extractedData.energyElectricQuantity = parseInt(energyElectricMatch[1]);
+            extractedData.energyElectricValue = parseFloat(
+                energyElectricMatch[2].replace(',', '.')
+            );
         }
+
         if (energySCE_Match) {
-            extractedData.energySCEQuantity = energySCE_Match[1];
-            extractedData.energySCEValue = energySCE_Match[2];
+            extractedData.energySCEQuantity = parseInt(energySCE_Match[1]);
+            extractedData.energySCEValue = parseFloat(energySCE_Match[2].replace(',', '.'));
         }
+
         if (energyCompensatedMatch) {
-            extractedData.energyCompensatedQuantity = energyCompensatedMatch[1];
-            extractedData.energyCompensatedValue = energyCompensatedMatch[2];
+            extractedData.energyCompensatedQuantity = parseInt(energyCompensatedMatch[1]);
+            extractedData.energyCompensatedValue = parseFloat(
+                energyCompensatedMatch[2].replace(',', '.')
+            );
         }
+
         if (publicLightingContributionMatch) {
-            extractedData.publicLightingContributionValue = publicLightingContributionMatch[1];
+            extractedData.publicLightingContributionValue = parseFloat(
+                publicLightingContributionMatch[1].replace(',', '.')
+            );
         }
+
         extractedData.pdfBuffer = base64Pdf;
+
         const extractPdf = await invoiceRepository.extractPdf(extractedData);
         return extractPdf;
     }

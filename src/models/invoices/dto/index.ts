@@ -1,5 +1,5 @@
 export interface InvoiceDTO {
-    clientNumber: string;
+    clientNumber: number;
     referenceMonth: string;
     energyEletricQuantity?: number;
     energyEletricValue?: number;

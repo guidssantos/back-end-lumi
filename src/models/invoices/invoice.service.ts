@@ -5,6 +5,11 @@ export class InvoiceService {
         const invoice = await invoiceRepository.find(body);
         return invoice;
     }
+
+    async download(body: any, invoiceRepository: InvoiceRepository) {
+        const invoice = await invoiceRepository.download(body);
+        return invoice;
+    }
     async extractPdf(body: any, invoiceRepository: InvoiceRepository) {
         const { pdfBuffer: base64Pdf } = body;
         const pdfBuffer = Buffer.from(base64Pdf, 'base64');
@@ -48,6 +53,7 @@ export class InvoiceService {
         if (publicLightingContributionMatch) {
             extractedData.publicLightingContributionValue = publicLightingContributionMatch[1];
         }
+        extractedData.pdfBuffer = base64Pdf;
         const extractPdf = await invoiceRepository.extractPdf(extractedData);
         return extractPdf;
     }

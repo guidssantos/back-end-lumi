@@ -8,4 +8,5 @@ export interface InvoiceDTO {
     energyCompensatedQuantity?: number;
     energyCompensatedValue?: number;
     publicLightingContribution?: number;
+    pdfBuffer?: String;
 }

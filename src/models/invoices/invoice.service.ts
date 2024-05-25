@@ -6,6 +6,10 @@ export class InvoiceService {
         return invoice;
     }
 
+    async dashboardGraph(body: any, invoiceRepository: InvoiceRepository) {
+        const invoice = await invoiceRepository.dashboardGraph(body);
+        return invoice;
+    }
     async dashboard(body: any, invoiceRepository: InvoiceRepository) {
         const invoice = await invoiceRepository.dashboard(body);
         return invoice;
@@ -32,9 +36,9 @@ export class InvoiceService {
         const energyElectricMatch = textItems.match(
             /Energia Elétrica\s+kWh\s+(\d+)\s+[\d,.]+\s+([\d,.]+)/i
         );
-        const energySCE_Match = textItems.match(
-            /Energia SCEE ISENTA\s+kWh\s+(\d+)\s+[\d,.]+\s+([\d,.]+)/i
-        );
+        const energySCE_Match =
+            textItems.match(/Energia SCEE ISENTA\s+kWh\s+(\d+)\s+[\d,.]+\s+([\d,.]+)/i) ||
+            textItems.match(/Energia SCEE s\/ ICMS\s+kWh\s+(\d+)\s+[\d,.]+\s+([\d,.]+)/i);
         const energyCompensatedMatch = textItems.match(
             /Energia compensada GD I\s+kWh\s+(\d+)\s+[\d,.]+\s+(-?[\d,.]+)/i
         );

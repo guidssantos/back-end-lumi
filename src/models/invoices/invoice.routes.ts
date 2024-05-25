@@ -7,6 +7,7 @@ const invoiceController = new InvoiceController();
 
 invoiceRouter.get('/', routeAdapter(invoiceController.find));
 invoiceRouter.get('/dashboard', routeAdapter(invoiceController.dashboard));
+invoiceRouter.get('/dashboardGraph', routeAdapter(invoiceController.dashboardGraph));
 invoiceRouter.get('/download/:id', routeAdapter(invoiceController.download));
 invoiceRouter.post('/', routeAdapter(invoiceController.extractPdf));
 

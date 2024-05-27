@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export class ClientRepository {
     async findClientNumber() {
-        return await prisma.Invoice.findMany({
+        return await prisma.invoice.findMany({
             select: {
                 clientNumber: true,
             },

@@ -1,5 +1,5 @@
 import { InvoiceRepository } from './invoice.repository';
-const pdfjslib = import('pdfjs-dist');
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
 export class InvoiceService {
     async find(body: any, invoiceRepository: InvoiceRepository) {
         const invoice = await invoiceRepository.find(body);
@@ -24,7 +24,8 @@ export class InvoiceService {
         const pdfBuffer = Buffer.from(base64Pdf, 'base64');
         const pdfData = new Uint8Array(pdfBuffer.length);
         pdfBuffer.copy(pdfData);
-        const pdf = await (await pdfjslib).getDocument({ data: pdfData }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+
         const page = await pdf.getPage(1);
         const text = await page.getTextContent();
         const textItems = text.items.map((item: any) => item.str).join(' ');

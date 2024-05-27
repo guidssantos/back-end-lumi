@@ -108,7 +108,7 @@ export class InvoiceRepository {
             return null;
         }
     }
-    async extractPdf({ data }: any): Promise<any> {
+    async extractPdf(data: any): Promise<any> {
         return await prisma.invoice.create({
             data,
         });

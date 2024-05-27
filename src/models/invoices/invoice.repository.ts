@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export class InvoiceRepository {
     async find({ clientNumber, referenceMonth }: any): Promise<any> {
-        return await prisma.Invoice.findMany({
+        return await prisma.invoice.findMany({
             where: {
                 clientNumber: clientNumber ? parseInt(clientNumber) : undefined,
                 referenceMonth: referenceMonth ?? undefined,
@@ -93,7 +93,7 @@ export class InvoiceRepository {
         return summaryData;
     }
     async download({ id }: any): Promise<any> {
-        const invoice = await prisma.Invoice.findUnique({
+        const invoice = await prisma.invoice.findUnique({
             where: {
                 id: id,
             },
@@ -102,10 +102,14 @@ export class InvoiceRepository {
                 pdfBuffer: true,
             },
         });
-        return Buffer.from(invoice.pdfBuffer, 'base64');
+        if (invoice && invoice.pdfBuffer) {
+            return Buffer.from(invoice.pdfBuffer, 'base64');
+        } else {
+            return null;
+        }
     }
-    async extractPdf(data: InvoiceDTO): Promise<any> {
-        return await prisma.Invoice.create({
+    async extractPdf({ data }: any): Promise<any> {
+        return await prisma.invoice.create({
             data,
         });
     }

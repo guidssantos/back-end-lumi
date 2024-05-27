@@ -1,0 +1,61 @@
+name: Deploy to AWS EC2
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Prisma generate
+              run: npx prisma generate
+
+            - name: Build project
+              run: npm run build
+
+            - name: Remove old files on EC2
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.AWS_KEY }}
+                  port: ${{ secrets.PORT }}
+                  script: |
+                      rm -rf back-end-lumi/*
+
+            - name: Copy files to EC2 instance
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.AWS_KEY }}
+                  port: ${{ secrets.PORT }}
+                  source: '.'
+                  target: 'back-end-lumi'
+
+            - name: SSH into EC2 and run commands
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.AWS_KEY }}
+                  port: ${{ secrets.PORT }}
+                  script: |
+                      pm2 restart server
+
+            - name: Finish
+              run: echo "Deployment completed."

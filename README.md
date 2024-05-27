@@ -20,7 +20,6 @@ Após a instalação das dependências, você pode iniciar o back-end em modo de
 
 npm run dev
 
-Este comando iniciará o servidor back-end e permitirá que você desenvolva e teste suas APIs.
 
 ## Uso
 
@@ -31,8 +30,6 @@ Agora que o back-end está em execução, você pode começar a desenvolver suas
 - Cors: Um middleware para permitir requisições entre diferentes origens no Express.
 - Swagger UI Express: Uma biblioteca para integrar a documentação do Swagger no Express.
 - Dotenv: Uma biblioteca para carregar variáveis de ambiente a partir de um arquivo .env.
-
-Sinta-se à vontade para explorar e modificar o código-fonte do back-end de acordo com suas necessidades!
 
 ## Comandos Úteis
 
